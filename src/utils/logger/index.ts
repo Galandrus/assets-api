@@ -1,12 +1,13 @@
 import { createLogger, format, transports } from 'winston';
-const { combine, timestamp, json, colorize } = format;
+const { combine, timestamp, json, colorize, errors } = format;
 
 const logger = createLogger({
     format: combine(
         timestamp({
             format: 'YYYY-MM-DD HH:mm:ss',
         }),
-        json()
+        json(),
+        errors()
     ),
     transports: [
         new transports.Console({

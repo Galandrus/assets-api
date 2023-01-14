@@ -16,7 +16,7 @@ services:
         image: mysql:5.7
         container_name: mySql
         environment:
-            MYSQL_DATABASE: 'tokens_database'
+            MYSQL_DATABASE: 'assets_database'
             MYSQL_USER: 'martinGalan'
             MYSQL_PASSWORD: '123qweasd'
             MYSQL_ROOT_PASSWORD: '123qweasd'

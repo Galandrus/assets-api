@@ -12,8 +12,7 @@ void (async () => {
         await TypeOrmDataSource.initialize();
         logger.info('Connected to MySQL databse successfully');
     } catch (e) {
-        logger.error('An error occurred connecting to MySQL');
-        logger.error(e);
+        logger.error('An error occurred connecting to MySQL.', e);
     }
 
     server.listen(config.APP_PORT, () => {

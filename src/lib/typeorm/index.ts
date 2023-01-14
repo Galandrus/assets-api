@@ -1,5 +1,7 @@
 import { DataSource } from 'typeorm';
 import config from '../../config';
+import { Asset } from '../../entities/asset';
+import { AssetHistory } from '../../entities/assetHistory';
 
 export const TypeOrmDataSource = new DataSource({
     type: 'mysql',
@@ -10,7 +12,7 @@ export const TypeOrmDataSource = new DataSource({
     database: config.MYSQL_DATABASE,
     synchronize: true,
     logging: true,
-    entities: [],
+    entities: [Asset, AssetHistory],
     subscribers: [],
     migrations: [],
 });
