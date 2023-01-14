@@ -1,0 +1,10 @@
+FROM node:16.15-alpine3.15 AS app
+WORKDIR /app
+
+COPY --chown=node:node ./package*.json /app/
+COPY --chown=node:node ./.swcrc /app/.swcrc
+COPY --chown=node:node ./node_modules /app/node_modules
+COPY --chown=node:node ./tsconfig.json /app/tsconfig.json
+COPY --chown=node:node ./nodemon.json /app/nodemon.json
+
+RUN npm install @swc/core-linux-musl

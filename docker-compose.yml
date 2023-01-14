@@ -1,0 +1,14 @@
+version: '3.4'
+services:
+    template:
+        build:
+            context: .
+            dockerfile: Dockerfile.local
+        container_name: template
+        command: npm run dev
+        working_dir: /app
+        env_file: .env
+        ports:
+            - "${APP_PORT}:${APP_PORT}"
+        volumes:
+            - './src:/app/src'
