@@ -1,14 +1,26 @@
 version: '3.4'
 services:
-    template:
-        build:
-            context: .
-            dockerfile: Dockerfile.local
-        container_name: template
-        command: npm run dev
-        working_dir: /app
-        env_file: .env
+    # template:
+    #     build:
+    #         context: .
+    #         dockerfile: Dockerfile.local
+    #     container_name: flixxoChallenge
+    #     command: npm run dev
+    #     working_dir: /app
+    #     env_file: .env
+    #     ports:
+    #         - "${APP_PORT}:${APP_PORT}"
+    #     volumes:
+    #         - './src:/app/src'
+    db:
+        image: mysql:5.7
+        container_name: mySql
+        environment:
+            MYSQL_DATABASE: 'tokens_database'
+            MYSQL_USER: 'martinGalan'
+            MYSQL_PASSWORD: '123qweasd'
+            MYSQL_ROOT_PASSWORD: '123qweasd'
         ports:
-            - "${APP_PORT}:${APP_PORT}"
-        volumes:
-            - './src:/app/src'
+        - '3306:3306'
+        expose:
+        - '3306'
