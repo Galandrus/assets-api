@@ -5,7 +5,9 @@ const router = Router();
 
 router.get('/', controllers.healthCheckController);
 
-export default {
+const HealthRouter = {
     prefix: '/health',
     router,
 };
+
+export default HealthRouter;

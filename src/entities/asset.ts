@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, Index, PrimaryColumn } from 'typeorm';
 
 @Entity('Asset')
 export class Asset {
@@ -8,8 +8,15 @@ export class Asset {
     @Column('text')
     name: string;
 
+    @Column('varchar')
+    @Index({ unique: true })
+    code: string;
+
     @Column('text')
     description: string;
+
+    @Column('text')
+    type: string;
 
     @Column('double')
     value: number;

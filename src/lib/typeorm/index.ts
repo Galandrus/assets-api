@@ -2,8 +2,9 @@ import { DataSource } from 'typeorm';
 import config from '../../config';
 import { Asset } from '../../entities/asset';
 import { AssetHistory } from '../../entities/assetHistory';
+import 'reflect-metadata';
 
-export const TypeOrmDataSource = new DataSource({
+export const AppDataSource = new DataSource({
     type: 'mysql',
     host: config.MYSQL_HOST,
     port: Number(config.MYSQL_PORT),

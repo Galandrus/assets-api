@@ -1,8 +1,10 @@
 import { Application } from 'express';
-import health from './health';
+import AssetsRouter from './assets';
+import HealthRouter from './health';
 
 const applyRoutes = (app: Application): void => {
-    app.use(health.prefix, health.router);
+    app.use(HealthRouter.prefix, HealthRouter.router);
+    app.use(AssetsRouter.prefix, AssetsRouter.router);
 };
 
 export default applyRoutes;

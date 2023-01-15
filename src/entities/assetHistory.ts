@@ -1,12 +1,11 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Asset } from './asset';
 
 @Entity('AssetHistory')
 export class AssetHistory {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column('text')
+    @Column('varchar')
     assetId: string;
 
     @Column('double')
