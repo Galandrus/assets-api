@@ -48,11 +48,21 @@ const findAssetByCode = async (code: string): Promise<Asset> => {
     }
 };
 
+const getListAssets = async (): Promise<Asset[]> => {
+    try {
+        return repository.find();
+    } catch (e) {
+        logger.error(e);
+        throw e;
+    }
+};
+
 const AssetRepository = {
     createAsset,
     updateAsset,
     findAssetById,
     findAssetByCode,
+    getListAssets,
 };
 
 export default AssetRepository;

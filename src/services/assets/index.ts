@@ -1,4 +1,5 @@
 import { Asset } from '../../entities/asset';
+import { AssetHistory } from '../../entities/assetHistory';
 import AssetHistoryRepository from '../../repositories/assetHistory';
 import AssetRepository from '../../repositories/assets';
 import { CreateAssetServiceResponse, ServiceResponse, UpdateAsset } from './types';
@@ -72,10 +73,40 @@ const updateAsset = async (updateAsset: UpdateAsset): Promise<ServiceResponse> =
     }
 };
 
+const getAssets = async (): Promise<Asset[]> => {
+    try {
+        return AssetRepository.getListAssets();
+    } catch (e) {
+        return [];
+    }
+};
+
+const getAssetById = async (id: string): Promise<Asset> => {
+    try {
+        return AssetRepository.findAssetById(id);
+    } catch (e) {
+        return null;
+    }
+};
+
+const getAssetHistory = async (id: string): Promise<{ value: number; date: Date }[]> => {
+    try {
+        const history = await AssetHistoryRepository.findHistoryByAssetId(id);
+        return history
+            .map((item) => ({ value: item.value, date: item.createdAt }))
+            .sort((a, b) => b.date.getTime() - a.date.getTime());
+    } catch (e) {
+        return [];
+    }
+};
+
 const AssetService = {
     createAsset,
     addNewValue,
     updateAsset,
+    getAssets,
+    getAssetById,
+    getAssetHistory,
 };
 
 export default AssetService;

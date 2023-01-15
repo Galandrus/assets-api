@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { Asset } from '../../entities/asset';
 import AssetService from '../../services/assets';
 import { UpdateAsset } from '../../services/assets/types';
@@ -52,8 +52,28 @@ const updateAssetValueController = async (req: UpdateAssetValueRequest, res: Res
     return res.status(200).json(response);
 };
 
+const getAssetsController = async (req: Request, res: Response): Promise<Response> => {
+    const response = await AssetService.getAssets();
+    return res.status(200).json(response);
+};
+
+const getAssetByIdController = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+    const response = await AssetService.getAssetById(id);
+    return res.status(200).json(response);
+};
+
+const getAssetHistoryController = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+    const response = await AssetService.getAssetHistory(id);
+    return res.status(200).json(response);
+};
+
 export default {
     createAssetController,
     updateAssetController,
     updateAssetValueController,
+    getAssetsController,
+    getAssetByIdController,
+    getAssetHistoryController,
 };
