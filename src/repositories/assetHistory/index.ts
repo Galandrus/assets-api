@@ -1,31 +1,20 @@
 import { AssetHistory } from '../../entities/assetHistory';
 import { AppDataSource } from '../../lib/typeorm';
-import logger from '../../utils/logger';
 
 const repository = AppDataSource.getRepository(AssetHistory);
 
 const createAssetHistory = async (assetId: string, value: number): Promise<AssetHistory> => {
-    try {
-        const assetHistory = {
-            assetId,
-            value,
-            createdAt: new Date(),
-        };
+    const assetHistory = {
+        assetId,
+        value,
+        createdAt: new Date(),
+    };
 
-        return repository.save(assetHistory);
-    } catch (e) {
-        logger.error(e);
-        throw e;
-    }
+    return repository.save(assetHistory);
 };
 
 const findHistoryByAssetId = async (assetId: string): Promise<AssetHistory[]> => {
-    try {
-        return await repository.findBy({ assetId });
-    } catch (e) {
-        logger.error(e);
-        throw e;
-    }
+    return await repository.findBy({ assetId });
 };
 
 const AssetHistoryRepository = {

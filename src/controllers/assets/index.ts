@@ -2,71 +2,111 @@ import { Request, Response } from 'express';
 import { Asset } from '../../entities/asset';
 import AssetService from '../../services/assets';
 import { UpdateAsset } from '../../services/assets/types';
-import { validateCreateAssetBody } from './helpers';
+import logger from '../../utils/logger';
+import { validateCreateAssetBody, validateUpdateAssetValueBody } from './helpers';
 import { CreateAssetRequest, UpdateAssetRequest, UpdateAssetValueRequest } from './types';
 
 const createAssetController = async (req: CreateAssetRequest, res: Response): Promise<Response> => {
-    const body = req.body;
+    try {
+        const body = req.body;
 
-    const validate = validateCreateAssetBody(body);
-    if (!validate.success) {
-        return res.status(400).json({ message: `Invalid body. ${validate.message}` });
+        const validate = validateCreateAssetBody(body);
+        if (!validate.success) {
+            return res.status(400).json({ message: `Invalid body. ${validate.errorMessage}` });
+        }
+
+        const existAsset = await AssetService.getAssetByCode(body.code);
+        if (existAsset) {
+            return res.status(400).json({ message: `An asset with code ${body.code} already exisit` });
+        }
+
+        const id = await AssetService.createAsset(body as Asset);
+
+        return res.status(200).json({ id });
+    } catch (e) {
+        logger.error('createAssetController error:', e);
+        return res.status(500).json({ message: 'An handled error occurred' });
     }
-
-    const response = await AssetService.createAsset(body as Asset);
-    if (!response.success) {
-        return res.status(500).json({ message: response.message });
-    }
-
-    return res.status(200).json({
-        id: response.id,
-    });
 };
 
 const updateAssetController = async (req: UpdateAssetRequest, res: Response): Promise<Response> => {
-    const { description, type, name } = req.body;
+    try {
+        const { description, type, name } = req.body;
 
-    const updateAsset: UpdateAsset = {
-        id: req.params.id,
-        description,
-        name,
-        type,
-    };
+        const updateAsset: UpdateAsset = {
+            id: req.params.id,
+            description,
+            name,
+            type,
+        };
 
-    const response = await AssetService.updateAsset(updateAsset);
-    if (!response.success) {
-        return res.status(500).json(response);
+        const response = await AssetService.updateAsset(updateAsset);
+        if (!response.success) {
+            return res.status(400).json(response);
+        }
+
+        return res.status(200).json(response);
+    } catch (e) {
+        logger.error('updateAssetController error:', e);
+        return res.status(500).json({ message: 'An handled error occurred' });
     }
-
-    return res.status(200).json(response);
 };
 
 const updateAssetValueController = async (req: UpdateAssetValueRequest, res: Response): Promise<Response> => {
-    const { code, value } = req.body;
+    try {
+        const body = req.body;
 
-    const response = await AssetService.addNewValue(code, value);
-    if (!response.success) {
-        return res.status(500).json(response);
+        const validate = validateUpdateAssetValueBody(body);
+        if (!validate.success) {
+            return res.status(400).json({ message: `Invalid body. ${validate.errorMessage}` });
+        }
+
+        const response = await AssetService.addNewValue(body.code, body.value);
+        if (!response.success) {
+            return res.status(400).json(response);
+        }
+
+        return res.status(200).json(response);
+    } catch (e) {
+        logger.error('updateAssetValueController error:', e);
+        return res.status(500).json({ message: 'An handled error occurred' });
     }
-
-    return res.status(200).json(response);
 };
 
 const getAssetsController = async (req: Request, res: Response): Promise<Response> => {
-    const response = await AssetService.getAssets();
-    return res.status(200).json(response);
+    try {
+        const response = await AssetService.getAssets();
+        return res.status(200).json(response);
+    } catch (e) {
+        logger.error('getAssetsController error:', e);
+        return res.status(500).json({ message: 'An handled error occurred' });
+    }
 };
 
 const getAssetByIdController = async (req: Request, res: Response): Promise<Response> => {
-    const { id } = req.params;
-    const response = await AssetService.getAssetById(id);
-    return res.status(200).json(response);
+    try {
+        const { id } = req.params;
+        const asset = await AssetService.getAssetById(id);
+        if (!asset) {
+            return res.status(400).json({ message: 'Asset not found' });
+        }
+
+        return res.status(200).json(asset);
+    } catch (e) {
+        logger.error('getAssetByIdController error:', e);
+        return res.status(500).json({ message: 'An handled error occurred' });
+    }
 };
 
 const getAssetHistoryController = async (req: Request, res: Response): Promise<Response> => {
-    const { id } = req.params;
-    const response = await AssetService.getAssetHistory(id);
-    return res.status(200).json(response);
+    try {
+        const { id } = req.params;
+        const response = await AssetService.getAssetHistory(id);
+        return res.status(200).json(response);
+    } catch (e) {
+        logger.error('getAssetHistoryController error:', e);
+        return res.status(500).json({ message: 'An handled error occurred' });
+    }
 };
 
 export default {

@@ -1,13 +1,15 @@
 import { Request } from 'express';
 
+export type CreateAssetRequestBody = {
+    name: string;
+    description: string;
+    value: number;
+    type: string;
+    code: string;
+};
+
 export interface CreateAssetRequest extends Request {
-    body: {
-        name: string;
-        description: string;
-        value: number;
-        type: string;
-        code: string;
-    };
+    body: CreateAssetRequestBody;
 }
 
 export interface UpdateAssetRequest extends Request {
@@ -19,10 +21,17 @@ export interface UpdateAssetRequest extends Request {
     };
 }
 
+export type UpdateAssetValueRequestBody = {
+    code: string;
+    value: number;
+};
+
 export interface UpdateAssetValueRequest extends Request {
     params: { id: string };
-    body: {
-        code: string;
-        value: number;
-    };
+    body: UpdateAssetValueRequestBody;
 }
+
+export type ValidationResponse = {
+    success: boolean;
+    errorMessage?: string;
+};

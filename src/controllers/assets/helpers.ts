@@ -1,8 +1,24 @@
 import Joi from 'joi';
 import logger from '../../utils/logger';
-import { CreateAssetRequestBody } from './types';
+import { CreateAssetRequestBody, UpdateAssetValueRequestBody, ValidationResponse } from './types';
 
-export const validateCreateAssetBody = (input: CreateAssetRequestBody): { success: boolean; message?: string } => {
+function validate<SchemaType = unknown>(schema: Joi.ObjectSchema<SchemaType>, input: SchemaType): ValidationResponse {
+    try {
+        const result = schema.validate(input);
+        return {
+            success: result.error === undefined,
+            errorMessage: result.error?.message,
+        };
+    } catch (e) {
+        logger.error('Validation Error', e);
+        return {
+            success: false,
+            errorMessage: (<Error>e).message,
+        };
+    }
+}
+
+export const validateCreateAssetBody = (input: CreateAssetRequestBody): ValidationResponse => {
     const schema = Joi.object<CreateAssetRequestBody>().keys({
         name: Joi.string().required(),
         description: Joi.string().required(),
@@ -11,17 +27,14 @@ export const validateCreateAssetBody = (input: CreateAssetRequestBody): { succes
         value: Joi.number().required(),
     });
 
-    try {
-        const result = schema.validate(input);
-        return {
-            success: result.error === undefined,
-            message: result.error?.message,
-        };
-    } catch (e) {
-        logger.error(e);
-        return {
-            success: false,
-            message: (<Error>e).message,
-        };
-    }
+    return validate<CreateAssetRequestBody>(schema, input);
+};
+
+export const validateUpdateAssetValueBody = (input: UpdateAssetValueRequestBody): ValidationResponse => {
+    const schema = Joi.object<UpdateAssetValueRequestBody>().keys({
+        code: Joi.string().required(),
+        value: Joi.number().required(),
+    });
+
+    return validate<UpdateAssetValueRequestBody>(schema, input);
 };
