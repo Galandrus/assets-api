@@ -9,4 +9,5 @@ const healthCheckController = (req: Request, res: Response): Response => {
     });
 };
 
-export default { healthCheckController };
+const HealthControllers = { healthCheckController };
+export default HealthControllers;

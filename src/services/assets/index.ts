@@ -1,7 +1,7 @@
 import { Asset } from '../../entities/asset';
 import AssetHistoryRepository from '../../repositories/assetHistory';
 import AssetRepository from '../../repositories/assets';
-import { ServiceResponse, UpdateAsset } from './types';
+import { UpdateAsset } from './types';
 
 const createAsset = async (asset: Asset): Promise<string> => {
     const newAsset = await AssetRepository.createAsset(asset);
@@ -9,42 +9,19 @@ const createAsset = async (asset: Asset): Promise<string> => {
     return newAsset.id;
 };
 
-const addNewValue = async (code: string, value: number): Promise<ServiceResponse> => {
-    const asset = await getAssetByCode(code);
-    if (!asset) {
-        return {
-            success: false,
-            message: 'Asset not found',
-        };
-    }
-
-    asset.value = value;
-    await AssetRepository.updateAsset(asset);
+const addNewValue = async (asset: Asset, newValue: number): Promise<Asset> => {
+    asset.value = newValue;
     await AssetHistoryRepository.createAssetHistory(asset.id, asset.value);
 
-    return {
-        success: true,
-    };
+    return AssetRepository.updateAsset(asset);
 };
 
-const updateAsset = async (updateAsset: UpdateAsset): Promise<ServiceResponse> => {
-    const asset = await getAssetById(updateAsset.id);
-    if (!asset) {
-        return {
-            success: false,
-            message: 'Asset not found',
-        };
-    }
-
+const updateAsset = async (asset: Asset, updateAsset: UpdateAsset): Promise<Asset> => {
     if (updateAsset.name) asset.name = updateAsset.name;
     if (updateAsset.description) asset.description = updateAsset.description;
     if (updateAsset.type) asset.type = updateAsset.type;
 
-    await AssetRepository.updateAsset(asset);
-
-    return {
-        success: true,
-    };
+    return AssetRepository.updateAsset(asset);
 };
 
 const getAssets = async (): Promise<Asset[]> => {

@@ -40,12 +40,13 @@ const updateAssetController = async (req: UpdateAssetRequest, res: Response): Pr
             type,
         };
 
-        const response = await AssetService.updateAsset(updateAsset);
-        if (!response.success) {
-            return res.status(400).json(response);
+        const asset = await AssetService.getAssetById(updateAsset.id);
+        if (!asset) {
+            return res.status(400).json({ message: `Asset not found` });
         }
 
-        return res.status(200).json(response);
+        await AssetService.updateAsset(asset, updateAsset);
+        return res.status(200).json({ success: true });
     } catch (e) {
         logger.error('updateAssetController error:', e);
         return res.status(500).json({ message: 'An handled error occurred' });
@@ -61,12 +62,14 @@ const updateAssetValueController = async (req: UpdateAssetValueRequest, res: Res
             return res.status(400).json({ message: `Invalid body. ${validate.errorMessage}` });
         }
 
-        const response = await AssetService.addNewValue(body.code, body.value);
-        if (!response.success) {
-            return res.status(400).json(response);
+        const asset = await AssetService.getAssetByCode(body.code);
+        if (!asset) {
+            return res.status(400).json({ message: 'Asset not found' });
         }
 
-        return res.status(200).json(response);
+        await AssetService.addNewValue(asset, body.value);
+
+        return res.status(200).json({ success: true });
     } catch (e) {
         logger.error('updateAssetValueController error:', e);
         return res.status(500).json({ message: 'An handled error occurred' });
@@ -109,7 +112,7 @@ const getAssetHistoryController = async (req: Request, res: Response): Promise<R
     }
 };
 
-export default {
+const AssetsControllers = {
     createAssetController,
     updateAssetController,
     updateAssetValueController,
@@ -117,3 +120,4 @@ export default {
     getAssetByIdController,
     getAssetHistoryController,
 };
+export default AssetsControllers;

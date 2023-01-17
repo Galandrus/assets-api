@@ -27,7 +27,6 @@ export type UpdateAssetValueRequestBody = {
 };
 
 export interface UpdateAssetValueRequest extends Request {
-    params: { id: string };
     body: UpdateAssetValueRequestBody;
 }
 
