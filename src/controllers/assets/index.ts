@@ -42,7 +42,7 @@ const updateAssetController = async (req: UpdateAssetRequest, res: Response): Pr
 
         const asset = await AssetService.getAssetById(updateAsset.id);
         if (!asset) {
-            return res.status(400).json({ message: `Asset not found` });
+            return res.status(400).json({ message: 'Asset not found' });
         }
 
         await AssetService.updateAsset(asset, updateAsset);

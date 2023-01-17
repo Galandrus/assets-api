@@ -31,11 +31,17 @@ $ cd flixxo-challenge
 
 # Initialization
 
-To initialize the project you must install the dependencies first. Run the followin command:
+To initialize the project you must install the dependencies first. Run the following command:
 
 ```bash
 npm install
 ```
+
+# Enviroment variables
+
+Before to start the server you need to set the environment variables in the file `./.env`.
+
+For the purpose of this challenge, and to you can try this API, all the environment variables are stated in the file `./.example.env`
 
 # Start server
 
@@ -57,7 +63,7 @@ npm run test
 
 The documentation is in the following link
 
-> [Documentation]()
+> [Documentation](https://assets-api.up.railway.app/docs)
 
 # Development Enviroment
 

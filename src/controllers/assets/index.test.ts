@@ -14,11 +14,11 @@ describe('AssetsControllers', () => {
 
     const defaultAsset: Asset = {
         id: 'ASSET-1234',
-        name: 'Bitcoin',
-        description: 'description',
-        value: 0.0002,
-        type: 'crytocurrencies',
-        code: 'BTC',
+        name: 'Flixxo',
+        description: 'A cryptocurrency of Flixxo, the platform for microseries from around the world.',
+        value: 0.0009434,
+        type: 'crypto',
+        code: 'FLIXX',
         createdAt: new Date(),
         updatedAt: new Date(),
     };
