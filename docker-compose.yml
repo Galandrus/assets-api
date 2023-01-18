@@ -1,26 +1,25 @@
-version: '3.4'
+version: '3.8'
 services:
-    # template:
-    #     build:
-    #         context: .
-    #         dockerfile: Dockerfile.local
-    #     container_name: flixxoChallenge
-    #     command: npm run dev
-    #     working_dir: /app
-    #     env_file: .env
-    #     ports:
-    #         - "${APP_PORT}:${APP_PORT}"
-    #     volumes:
-    #         - './src:/app/src'
     db:
         image: mysql:5.7
         container_name: mySql
+        env_file: .env
         environment:
-            MYSQL_DATABASE: 'assets_database'
-            MYSQL_USER: 'martinGalan'
-            MYSQL_PASSWORD: '123qweasd'
-            MYSQL_ROOT_PASSWORD: '123qweasd'
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USERNAME}
+            MYSQL_PASSWORD: ${MYSQL_PASS}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_PASS}
         ports:
-        - '3306:3306'
-        expose:
-        - '3306'
+            - ${MYSQL_PORT}:${MYSQL_PORT}
+
+    app:
+        container_name: assetsApi
+        build:
+            context: .
+            dockerfile: ./Dockerfile.local
+        env_file: .env
+        ports:
+            - ${APP_PORT}:${APP_PORT}
+        depends_on:
+            - db
+        restart: on-failure

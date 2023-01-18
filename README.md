@@ -12,6 +12,7 @@ It consist in a information manager of digital assets such as cryptocurrency or 
 -   [Node.js v18](https://nodejs.org/en/download/)
 -   [npm](http://npmjs.com)
 -   [Docker](https://www.docker.com/)
+-   [Docker-compose](https://docs.docker.com/compose/)
 -   [Git](https://git-scm.com)
 
 ## Download
@@ -45,7 +46,13 @@ For the purpose of this challenge, and to you can try this API, all the environm
 
 # Start server
 
-To start the server run the following command
+To start the server with the database, you can run the following command:
+
+```bash
+npm run dev:compose
+```
+
+if you only want start the server, you can run the following command:
 
 ```bash
 npm start
@@ -67,7 +74,7 @@ The documentation is in the following link
 
 # Development Enviroment
 
-This API is hosted in the cloud. You can access to the site with the following link
+This API is hosted in the cloud. You can access the site with the following link
 
 > [Assets API](https://assets-api.up.railway.app/health)
 

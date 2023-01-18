@@ -1,4 +1,4 @@
-FROM node:16.15-alpine3.15 AS app
+FROM node:18-alpine3.15 AS app
 WORKDIR /app
 
 COPY --chown=node:node ./package*.json /app/
@@ -8,3 +8,7 @@ COPY --chown=node:node ./tsconfig.json /app/tsconfig.json
 COPY --chown=node:node ./nodemon.json /app/nodemon.json
 
 RUN npm install @swc/core-linux-musl
+
+COPY . .
+EXPOSE 3300
+CMD ["npm", "start"]
