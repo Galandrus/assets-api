@@ -3,6 +3,7 @@ import config from '../../config';
 import { Asset } from '../../entities/asset';
 import { AssetHistory } from '../../entities/assetHistory';
 import 'reflect-metadata';
+import { addSeeds1673996435947 } from '../../migrations/1673996435947-add_seeds';
 
 export const AppDataSource = new DataSource({
     type: 'mysql',
@@ -15,5 +16,5 @@ export const AppDataSource = new DataSource({
     logging: true,
     entities: [Asset, AssetHistory],
     subscribers: [],
-    migrations: [],
+    migrations: [addSeeds1673996435947],
 });

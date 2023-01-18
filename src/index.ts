@@ -10,6 +10,8 @@ void (async () => {
     try {
         await AppDataSource.initialize();
         logger.info('Connected to MySQL databse successfully');
+        await AppDataSource.runMigrations();
+        logger.info('Seeds added correctly');
     } catch (e) {
         logger.error('An error occurred connecting to MySQL.', e);
     }
