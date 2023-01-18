@@ -12,7 +12,7 @@ const swaggerOptions: swaggerJSDoc.OAS3Options = {
         },
         servers: [
             {
-                url: 'https://assets-api.up.railway.app/',
+                url: 'https://assets-api.up.railway.app',
             },
         ],
         paths: {

@@ -72,6 +72,10 @@ The documentation is in the following link
 
 > [Documentation](https://assets-api.up.railway.app/docs)
 
+Also, you could download the collection in format JSON to import in postman for example
+
+> [Collection](https://assets-api.up.railway.app/docs.json)
+
 # Development Environment
 
 This API is hosted in the cloud. You can access the site with the following link
