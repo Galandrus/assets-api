@@ -5,15 +5,12 @@ import { UpdateAsset } from './types';
 
 const createAsset = async (asset: Asset): Promise<string> => {
     const newAsset = await AssetRepository.createAsset(asset);
-    await AssetHistoryRepository.createAssetHistory(newAsset.id, newAsset.value);
     return newAsset.id;
 };
 
 const addNewValue = async (asset: Asset, newValue: number): Promise<Asset> => {
     asset.value = newValue;
-    await AssetHistoryRepository.createAssetHistory(asset.id, asset.value);
-
-    return AssetRepository.updateAsset(asset);
+    return AssetRepository.updateAssetValue(asset);
 };
 
 const updateAsset = async (asset: Asset, updateAsset: UpdateAsset): Promise<Asset> => {

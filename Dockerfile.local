@@ -11,4 +11,4 @@ RUN npm install @swc/core-linux-musl
 
 COPY . .
 EXPOSE 3300
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
